@@ -68,7 +68,10 @@ namespace Keepr.Repositories
       UPDATE keeps SET
       name = @name,
       description = @description,
-      img = @img
+      img = @img,
+      views = @views,
+      kept = @kept,
+      shares = @shares
       WHERE id = @id
       ";
       _db.Execute(sql, keepData);
