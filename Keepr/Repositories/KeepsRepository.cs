@@ -72,7 +72,7 @@ namespace Keepr.Repositories
       views = @views,
       kept = @kept,
       shares = @shares
-      WHERE id = @id
+      WHERE id = @id;
       ";
       _db.Execute(sql, keepData);
       return keepData;
