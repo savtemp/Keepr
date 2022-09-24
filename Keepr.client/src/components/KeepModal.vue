@@ -72,12 +72,21 @@
                 <div class="col-3">
                   <i class="fs-3 mdi mdi-delete-outline"></i>
                 </div>
-                <div class="col-3">
-                  <img
-                    class="img-fluid profile-img"
-                    :src="keep?.creator.picture"
-                    alt=""
-                  />
+                <!-- TODO need get profile by Id for this to work correctly -->
+                <div class="col-3" v-if="keep?.creator.id">
+                  <router-link
+                    :to="{
+                      name: 'Profile',
+                      params: { profileId: keep?.creator.id },
+                    }"
+                  >
+                    <img
+                      class="img-fluid profile-img"
+                      :src="keep?.creator.picture"
+                      alt=""
+                      data-bs-dismiss="modal"
+                    />
+                  </router-link>
                   <p class="fs-6">{{ keep?.creator.name }}</p>
                 </div>
               </footer>
@@ -107,6 +116,7 @@ export default {
   setup() {
     return {
       keep: computed(() => AppState.activeKeep),
+      account: computed(() => AppState.account),
     };
   },
 };

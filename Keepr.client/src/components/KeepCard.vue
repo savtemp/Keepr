@@ -1,11 +1,14 @@
 <template>
-  <div
-    class="rounded border elevation-2 selectable no-select"
-    @click="setActive"
-  >
+  <div class="rounded border elevation-2 selectable no-select">
     <div class="p-1">
-      <img class="img-fluid" :src="keep.img" alt="" />
+      <img class="img-fluid" :src="keep.img" alt="" @click="setActive" />
       <p>{{ keep.name }}</p>
+      <!-- TODO need get profile by Id for this to work correctly -->
+      <router-link
+        :to="{ name: 'Profile', params: { profileId: keep.creator.id } }"
+      >
+        <img class="img-fluid profile-img" :src="keep.creator.picture" alt="" />
+      </router-link>
     </div>
   </div>
   <KeepModal />
@@ -37,4 +40,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.profile-img {
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  height: 2em;
+  width: 2em;
+}
+</style>

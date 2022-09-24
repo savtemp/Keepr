@@ -11,6 +11,7 @@ const routes = [
     name: "Home",
     component: loadPage("HomePage"),
   },
+  //TODO  :profileId
   {
     path: "/profile",
     name: "Profile",
