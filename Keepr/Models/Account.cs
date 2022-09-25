@@ -11,9 +11,4 @@ namespace Keepr.Models
   {
     public string Email { get; set; }
   }
-
-  public class VaultKeepViewModel : Profile
-  {
-    public int VaultKeepId { get; set; }
-  }
 }

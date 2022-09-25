@@ -21,15 +21,14 @@ namespace Keepr.Controllers
 
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<VaultKeepViewModel>> Create([FromBody] VaultKeep vaultKeep)
+    public async Task<ActionResult<VaultKeep>> Create([FromBody] VaultKeep vaultKeepData)
     {
       try
       {
-        VaultKeepViewModel user = await HttpContext.GetUserInfoAsync<VaultKeepViewModel>();
-        vaultKeep.CreatorId = user.Id;
-        VaultKeep newVaultKeep = _vaultKeepsService.Create(vaultKeep);
-        user.VaultKeepId = newVaultKeep.Id;
-        return user;
+        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        vaultKeepData.CreatorId = user.Id;
+        VaultKeep newVaultKeep = _vaultKeepsService.Create(vaultKeepData, user.Id);
+        return newVaultKeep;
       }
       catch (Exception e)
       {
@@ -39,12 +38,12 @@ namespace Keepr.Controllers
 
     [HttpDelete("{id}")]
     [Authorize]
-    public async Task<ActionResult<string>> Remove(int id)
+    public async Task<ActionResult<string>> Delete(int id)
     {
       try
       {
         Account user = await HttpContext.GetUserInfoAsync<Account>();
-        string message = _vaultKeepsService.Remove(id, user);
+        string message = _vaultKeepsService.Delete(id, user.Id);
         return Ok(message);
       }
       catch (Exception e)

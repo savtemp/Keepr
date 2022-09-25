@@ -63,6 +63,9 @@
       "titleBar.inactiveBackground": "#b9988099",
       "titleBar.inactiveForeground": "#15202b99"
     },
-    "peacock.color": "#b99880"
+    "peacock.color": "#b99880",
+    "cSpell.words": [
+      "vaultkeeps"
+    ]
   }
 }
