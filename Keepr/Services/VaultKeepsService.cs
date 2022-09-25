@@ -16,19 +16,18 @@ namespace Keepr.Services
       _vaultsService = vaultsService;
     }
 
-    internal List<VaultKeepViewModel> GetVaultKeeps(int id, string userId)
+    internal List<VaultKeepViewModel> GetVaultKeeps(int vaultId, string userId)
     {
-      Vault vault = _vaultsService.GetById(id, userId);
-      List<VaultKeepViewModel> vaultKeeps = _vaultKeepRepo.GetVaultKeeps(id);
+      Vault vault = _vaultsService.GetById(vaultId, userId);
       if (vault == null)
       {
-        throw new Exception($"No Vault at id: {id}.");
+        throw new Exception($"No Vault at id: {vaultId}.");
       }
       if (vault.isPrivate == true || vault.CreatorId != userId)
       {
         throw new Exception($"{vault.Name} is private, you cannot view {vault.Name} keeps.");
       }
-      return vaultKeeps;
+      return _vaultKeepRepo.GetVaultKeeps(vaultId);
     }
 
     // NOTE You get the cultMember (vaultKeep) from the Cult (vault)

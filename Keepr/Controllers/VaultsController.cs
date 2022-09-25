@@ -43,8 +43,8 @@ namespace Keepr.Controllers
       try
       {
         Account user = await HttpContext.GetUserInfoAsync<Account>();
-        List<VaultKeepViewModel> vaultKeeps = _vaultKeepsService.GetVaultKeeps(id, user?.Id);
-        return Ok(vaultKeeps);
+        List<VaultKeepViewModel> vaultKeepViewModel = _vaultKeepsService.GetVaultKeeps(id, user?.Id);
+        return Ok(vaultKeepViewModel);
       }
       catch (Exception e)
       {
