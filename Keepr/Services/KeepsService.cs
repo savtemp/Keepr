@@ -49,6 +49,12 @@ namespace Keepr.Services
       return _keepsRepo.Update(original);
     }
 
+    internal List<Keep> GetProfileKeeps(string id)
+    {
+      List<Keep> keeps = _keepsRepo.GetProfileKeeps(id);
+      return keeps;
+    }
+
     internal string Delete(int id, string userId)
     {
       Keep original = GetById(id);

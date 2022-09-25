@@ -9,32 +9,51 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Keepr.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class AccountController : ControllerBase
+  [ApiController]
+  [Route("[controller]")]
+  public class AccountController : ControllerBase
+  {
+    private readonly AccountService _accountService;
+    private readonly VaultsService _vaultsService;
+
+    public AccountController(AccountService accountService, VaultsService vaultsService)
     {
-        private readonly AccountService _accountService;
-
-        public AccountController(AccountService accountService)
-        {
-            _accountService = accountService;
-        }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<ActionResult<Account>> Get()
-        {
-            try
-            {
-                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-                return Ok(_accountService.GetOrCreateProfile(userInfo));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+      _accountService = accountService;
+      _vaultsService = vaultsService;
     }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<ActionResult<Account>> Get()
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        return Ok(_accountService.GetOrCreateProfile(userInfo));
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
+    // NOTE similar to AllSpice Recipes in AccountController example
+    [HttpGet("vaults")]
+    [Authorize]
+    public async Task<ActionResult<List<Vault>>> GetAccountVaults()
+    {
+      try
+      {
+        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        List<Vault> vaults = _vaultsService.GetAccountVaults(user.Id);
+        return Ok(vaults);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+  }
 
 
 }

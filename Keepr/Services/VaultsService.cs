@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Keepr.Models;
 using Keepr.Repositories;
 
@@ -56,6 +57,21 @@ namespace Keepr.Services
       }
       _vaultsRepo.Delete(id);
       return $"{original.Name} was deleted.";
+    }
+
+    // NOTE we should not see a users private vaults
+    internal List<Vault> GetProfileVaults(string userId)
+    {
+      List<Vault> vaults = _vaultsRepo.GetProfileVaults(userId);
+      // NOTE per Mick code notes this line is supposed to filter out private vaults that you are not the owner of
+      vaults = vaults.FindAll(v => v.isPrivate == false || v.CreatorId != userId);
+      return vaults;
+    }
+
+    internal List<Vault> GetAccountVaults(string id)
+    {
+      List<Vault> vaults = _vaultsRepo.GetProfileVaults(id);
+      return vaults;
     }
   }
 }

@@ -23,16 +23,18 @@ namespace Keepr.Repositories
       return _db.Query<VaultKeep>(sql, new { id }).FirstOrDefault();
     }
 
+    // NOTE GetCultists example isn't many to many need to add another table that joins Account,VaultKeeps, and Keeps (vaultKeeps already has the vaultId)
+    // NOTE Keeps need to come before VaultKeeps because you need to access Keeps before you can access the VaultKeepViewModel
     internal List<VaultKeepViewModel> GetVaultKeeps(int id)
     {
       string sql = @"
       SELECT
         a.*,
-        vk.id AS vaultKeepId,
-        k.*
+        k.*,
+        vk.id AS vaultKeepId
       FROM vaultkeeps vk
-      JOIN accounts a ON vk.creatorId = a.id
       JOIN keeps k ON vk.keepId = k.id
+      JOIN accounts a ON vk.creatorId = a.id
       WHERE vk.vaultId = @id;
       ";
       return _db.Query<Profile, VaultKeepViewModel, VaultKeepViewModel>(sql, (profile, vaultKeepViewModel) =>

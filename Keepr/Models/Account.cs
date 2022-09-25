@@ -1,8 +1,8 @@
 namespace Keepr.Models
 {
-  public class Profile : RepoItem<string>
+  public class Profile
   {
-    public new string Id { get; set; }
+    public string Id { get; set; }
     public string Name { get; set; }
     public string Picture { get; set; }
   }
