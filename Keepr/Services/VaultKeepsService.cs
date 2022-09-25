@@ -50,7 +50,7 @@ namespace Keepr.Services
       VaultKeep vaultKeep = _vaultKeepRepo.GetById(id);
       if (vaultKeep == null)
       {
-        throw new Exception("No VaultKeep by that Id.");
+        throw new Exception($"No VaultKeep by that id: {vaultKeep.Id}.");
       }
       Vault vault = _vaultsService.GetById(vaultKeep.VaultId, userId);
       if (vault.CreatorId != userId)

@@ -24,7 +24,7 @@ namespace Keepr.Services
       Keep keep = _keepsRepo.GetById(id);
       if (keep == null)
       {
-        throw new Exception("There is no keep by that id.");
+        throw new Exception($"No Keep at id: {id}.");
       }
       keep.Views++;
       _keepsRepo.Update(keep);
@@ -41,7 +41,7 @@ namespace Keepr.Services
       Keep original = GetById(update.Id);
       if (original.CreatorId != userId)
       {
-        throw new Exception("You are not the creator of this keep, you cannot update this keep.");
+        throw new Exception($"Cannot update {original.Name} you are not the creator.");
       }
       original.Name = update.Name ?? original.Name;
       original.Description = update.Description ?? original.Description;
@@ -60,7 +60,7 @@ namespace Keepr.Services
       Keep original = GetById(id);
       if (original.CreatorId != userId)
       {
-        throw new Exception("You are not the creator of this keep, you cannot delete this keep.");
+        throw new Exception($"Cannot delete {original.Name}, you are not the creator.");
       }
       _keepsRepo.Delete(id);
       return $"The Keep {original.Name} has been deleted.";
