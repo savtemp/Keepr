@@ -20,7 +20,7 @@
         </div>
       </div>
       <!-- TODO might make this a fake carousel -->
-      <div class="col-md-4" v-for="v in vaults" :key="v.id">
+      <div class="col-md-2" v-for="v in vaults" :key="v.id">
         <VaultCard :vault="v" />
       </div>
     </div>
