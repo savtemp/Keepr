@@ -88,7 +88,7 @@ import { AppState } from "../AppState.js";
 export default {
   setup() {
     return {
-      keep: computed(() => AppState.profileKeeps),
+      keep: computed(() => AppState.activeKeep),
     };
   },
 };

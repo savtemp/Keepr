@@ -120,9 +120,6 @@ export default {
           logger.log(error);
         }
       },
-
-      // TODO create setActive for keeps - will open the activeKeep modal
-      // TODO create Router Link for Vaults - will open the VaultDetailsPage
     };
   },
   components: { NewKeepModal, NewVaultModal, VaultCard, ProfileKeepCard },
