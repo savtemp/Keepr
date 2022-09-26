@@ -34,7 +34,8 @@
       </div>
       <!-- TODO this might need to be a container to do masonry -->
       <div class="col-md-3" v-for="k in keeps" :key="k.id">
-        <img class="img-fluid cover-img" :src="k.img" alt="" />
+        <ProfileKeepCard :keep="k" />
+        <!-- <img class="img-fluid cover-img" :src="k.img" alt="" /> -->
       </div>
     </div>
   </div>
@@ -54,6 +55,7 @@ import Pop from "../utils/Pop.js";
 import { useRoute } from "vue-router";
 import NewVaultModal from "../components/NewVaultModal.vue";
 import VaultCard from "../components/VaultCard.vue";
+import ProfileKeepCard from "../components/ProfileKeepCard.vue";
 
 export default {
   name: "ProfilePage",
@@ -123,7 +125,7 @@ export default {
       // TODO create Router Link for Vaults - will open the VaultDetailsPage
     };
   },
-  components: { NewKeepModal, NewVaultModal, VaultCard },
+  components: { NewKeepModal, NewVaultModal, VaultCard, ProfileKeepCard },
 };
 </script>
 
