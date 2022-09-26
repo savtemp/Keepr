@@ -12,6 +12,7 @@
       </div>
     </div>
     <div class="row">
+      <!-- TODO users pushed back to home page when they try to open a private vault -->
       <div class="col-md-12 fs-2">
         <div class="d-flex">
           <p>Vaults</p>
@@ -19,8 +20,8 @@
         </div>
       </div>
       <!-- TODO might make this a fake carousel -->
-      <div class="col-md-3" v-for="v in vaults" :key="v.id">
-        <img class="img-fluid cover-img" :src="v.img" alt="" />
+      <div class="col-md-4" v-for="v in vaults" :key="v.id">
+        <VaultCard :vault="v" />
       </div>
     </div>
     <div class="row">
@@ -52,6 +53,7 @@ import { onMounted } from "vue";
 import Pop from "../utils/Pop.js";
 import { useRoute } from "vue-router";
 import NewVaultModal from "../components/NewVaultModal.vue";
+import VaultCard from "../components/VaultCard.vue";
 
 export default {
   name: "ProfilePage",
@@ -97,16 +99,6 @@ export default {
       keeps: computed(() => AppState.profileKeeps),
       vaults: computed(() => AppState.profileVaults),
 
-      async newKeep() {
-        try {
-          Modal.getOrCreateInstance(
-            document.getElementById("keepFormModal")
-          ).toggle();
-        } catch (error) {
-          logger.log(error);
-        }
-      },
-
       async newVault() {
         try {
           Modal.getOrCreateInstance(
@@ -117,11 +109,21 @@ export default {
         }
       },
 
+      async newKeep() {
+        try {
+          Modal.getOrCreateInstance(
+            document.getElementById("keepFormModal")
+          ).toggle();
+        } catch (error) {
+          logger.log(error);
+        }
+      },
+
       // TODO create setActive for keeps - will open the activeKeep modal
       // TODO create Router Link for Vaults - will open the VaultDetailsPage
     };
   },
-  components: { NewKeepModal, NewVaultModal },
+  components: { NewKeepModal, NewVaultModal, VaultCard },
 };
 </script>
 

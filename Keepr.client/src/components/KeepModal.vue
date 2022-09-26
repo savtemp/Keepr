@@ -8,11 +8,6 @@
   >
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <!-- <div class="modal-header">
-          <div data-bs-dismiss="modal" aria-label="Close">
-            <i class="text-dark mdi mdi-window-close"></i>
-          </div>
-        </div> -->
         <div class="modal-body">
           <div class="row">
             <div class="col-6">
@@ -45,8 +40,8 @@
                   <p>{{ keep?.description }}</p>
                 </div>
               </div>
-              <footer class="row justify-content-around align-items-baseline">
-                <div class="col-3">
+              <footer class="row justify-content-around">
+                <div class="col-md-4">
                   <div class="dropdown">
                     <button
                       class="btn btn-success dropdown-toggle"
@@ -69,40 +64,36 @@
                     </ul>
                   </div>
                 </div>
-                <div class="col-3">
+                <div class="col-md-1 text-center">
                   <i class="fs-3 mdi mdi-delete-outline"></i>
                 </div>
-                <!-- TODO need get profile by Id for this to work correctly -->
-                <div class="col-3" v-if="keep?.creator.id">
-                  <router-link
-                    :to="{
-                      name: 'Profile',
-                      params: { profileId: keep?.creator.id },
-                    }"
-                  >
-                    <img
-                      class="img-fluid profile-img"
-                      :src="keep?.creator.picture"
-                      alt=""
-                      data-bs-dismiss="modal"
-                    />
-                  </router-link>
-                  <p class="fs-6">{{ keep?.creator.name }}</p>
+                <div class="col-md-6">
+                  <div class="row" data-bs-dismiss="modal">
+                    <router-link
+                      class="col-12 d-flex"
+                      v-if="keep?.id"
+                      :to="{
+                        name: 'Profile',
+                        params: { profileId: keep?.creator?.id },
+                      }"
+                    >
+                      <div>
+                        <img
+                          class="img-fluid profile-img"
+                          :src="keep?.creator?.picture"
+                          alt=""
+                        />
+                      </div>
+                      <div>
+                        <p>{{ keep?.creator?.name }}</p>
+                      </div>
+                    </router-link>
+                  </div>
                 </div>
               </footer>
             </div>
           </div>
         </div>
-        <!-- <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div> -->
       </div>
     </div>
   </div>
@@ -116,8 +107,6 @@ export default {
   setup() {
     return {
       keep: computed(() => AppState.activeKeep),
-      // account: computed(() => AppState.account),
-      profile: computed(() => AppState.activeProfile),
     };
   },
 };

@@ -27,11 +27,11 @@ class KeepsService {
     AppState.activeKeep = res.data;
   }
 
-  // async deleteKeep(id){
-  //   const res = await api.delete(`/api/keeps/` + id)
-  //   logger.log("Deleting keep", res.data)
-  //   AppState.keeps = AppState.keeps.filter(k => k.id != id)
-  // }
+  async deleteKeep(id) {
+    const res = await api.delete(`/api/keeps/` + id);
+    logger.log("Deleting keep", res.data);
+    AppState.keeps = AppState.keeps.filter((k) => k.id != id);
+  }
 }
 
 export const keepsService = new KeepsService();

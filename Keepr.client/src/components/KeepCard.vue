@@ -3,7 +3,6 @@
     <div class="p-1">
       <img class="img-fluid" :src="keep.img" alt="" @click="setActive" />
       <p>{{ keep.name }}</p>
-      <!-- TODO need get profile by Id for this to work correctly -->
       <router-link
         :to="{ name: 'Profile', params: { profileId: keep.creator.id } }"
       >
@@ -15,9 +14,7 @@
 </template>
 
 <script>
-import { computed } from "@vue/reactivity";
 import { Modal } from "bootstrap";
-import { AppState } from "../AppState.js";
 import { keepsService } from "../services/KeepsService.js";
 import { logger } from "../utils/Logger.js";
 import KeepModal from "./KeepModal.vue";
@@ -26,7 +23,6 @@ export default {
   props: { keep: { type: Object, required: true } },
   setup(props) {
     return {
-      profile: computed(() => AppState.activeProfile),
       async setActive() {
         try {
           Modal.getOrCreateInstance(
