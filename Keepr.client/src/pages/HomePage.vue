@@ -1,3 +1,5 @@
+<!-- TODO create searchbar for top of homepage - pull from TheNetwork example -->
+
 <template>
   <div class="container-fluid">
     <div class="masonry">

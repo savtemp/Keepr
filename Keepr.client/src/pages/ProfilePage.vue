@@ -25,7 +25,7 @@
     </div>
     <div class="row">
       <div class="col-md-12 fs-2">
-        <!-- TODO v-if="profile.id == account.id" -->
+        <!-- TODO v-if="profile.id == account.id" OR v-if="isCreator"-->
         <div class="d-flex">
           <p>Keeps</p>
           <i @click="newKeep" class="mdi mdi-plus"></i>
@@ -116,6 +116,9 @@ export default {
           logger.log(error);
         }
       },
+
+      // TODO create setActive for keeps - will open the activeKeep modal
+      // TODO create Router Link for Vaults - will open the VaultDetailsPage
     };
   },
   components: { NewKeepModal, NewVaultModal },
