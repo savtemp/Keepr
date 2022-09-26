@@ -15,7 +15,6 @@ class KeepsService {
     AppState.activeKeep = res.data;
   }
 
-  // TODO test these once profile keeps are up
   async create(keep) {
     const res = await api.post(`/api/keeps`, keep);
     logger.log("Created keep", res.data);
@@ -28,7 +27,7 @@ class KeepsService {
     AppState.activeKeep = res.data;
   }
 
-  // async delete(id){
+  // async deleteKeep(id){
   //   const res = await api.delete(`/api/keeps/` + id)
   //   logger.log("Deleting keep", res.data)
   //   AppState.keeps = AppState.keeps.filter(k => k.id != id)

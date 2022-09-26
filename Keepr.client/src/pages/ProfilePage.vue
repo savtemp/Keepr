@@ -1,4 +1,5 @@
 <template>
+  <!-- v-if="profile" -->
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12 d-flex">
@@ -14,16 +15,12 @@
       <div class="col-md-12 fs-2">
         <div class="d-flex">
           <p>Vaults</p>
-          <i class="mdi mdi-plus"></i>
+          <i @click="newVault" class="mdi mdi-plus"></i>
         </div>
       </div>
       <!-- TODO might make this a fake carousel -->
-      <div class="col-md-3">
-        <img
-          class="img-fluid cover-img"
-          src="https://thiscatdoesnotexist.com/"
-          alt=""
-        />
+      <div class="col-md-3" v-for="v in vaults" :key="v.id">
+        <img class="img-fluid cover-img" :src="v.img" alt="" />
       </div>
     </div>
     <div class="row">
@@ -35,16 +32,13 @@
         </div>
       </div>
       <!-- TODO this might need to be a container to do masonry -->
-      <div class="col-md-3">
-        <img
-          class="img-fluid cover-img"
-          src="https://thiscatdoesnotexist.com/"
-          alt=""
-        />
+      <div class="col-md-3" v-for="k in keeps" :key="k.id">
+        <img class="img-fluid cover-img" :src="k.img" alt="" />
       </div>
     </div>
   </div>
   <NewKeepModal />
+  <NewVaultModal />
 </template>
 
 <script>
@@ -53,12 +47,55 @@ import { Modal } from "bootstrap";
 import { AppState } from "../AppState.js";
 import { logger } from "../utils/Logger.js";
 import NewKeepModal from "../components/NewKeepModal.vue";
+import { profilesService } from "../services/ProfilesService.js";
+import { onMounted } from "vue";
+import Pop from "../utils/Pop.js";
+import { useRoute } from "vue-router";
+import NewVaultModal from "../components/NewVaultModal.vue";
 
 export default {
   name: "ProfilePage",
   setup() {
+    const route = useRoute();
+
+    onMounted(() => {
+      getProfileById();
+      getProfileKeeps();
+      getProfileVaults();
+    });
+
+    async function getProfileById() {
+      try {
+        await profilesService.getProfileById(route.params.profileId);
+      } catch (error) {
+        Pop.error(error.message);
+        logger.log(error);
+      }
+    }
+
+    async function getProfileKeeps() {
+      try {
+        await profilesService.getProfileKeeps(route.params.profileId);
+      } catch (error) {
+        Pop.error(error.message);
+        logger.log(error);
+      }
+    }
+
+    async function getProfileVaults() {
+      try {
+        await profilesService.getProfileVaults(route.params.profileId);
+      } catch (error) {
+        Pop.error(error.message);
+        logger.log;
+      }
+    }
+
     return {
-      profile: computed(() => AppState.account),
+      account: computed(() => AppState.account),
+      profile: computed(() => AppState.activeProfile),
+      keeps: computed(() => AppState.profileKeeps),
+      vaults: computed(() => AppState.profileVaults),
 
       async newKeep() {
         try {
@@ -69,9 +106,19 @@ export default {
           logger.log(error);
         }
       },
+
+      async newVault() {
+        try {
+          Modal.getOrCreateInstance(
+            document.getElementById("vaultFormModal")
+          ).toggle();
+        } catch (error) {
+          logger.log(error);
+        }
+      },
     };
   },
-  components: { NewKeepModal },
+  components: { NewKeepModal, NewVaultModal },
 };
 </script>
 

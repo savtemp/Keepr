@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal fade"
-    id="keepFormModal"
+    id="vaultFormModal"
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
@@ -9,7 +9,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New Keep</h5>
+          <h5 class="modal-title" id="exampleModalLabel">New Vault</h5>
           <button
             type="button"
             class="btn-close"
@@ -19,7 +19,7 @@
         </div>
         <div class="modal-body">
           <!-- v-if="isCreator" -->
-          <KeepForm :keepData="keep" />
+          <VaultForm :vaultData="vault" />
         </div>
       </div>
     </div>
@@ -29,17 +29,17 @@
 <script>
 import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState.js";
-import KeepForm from "./KeepForm.vue";
+import VaultForm from "./VaultForm.vue";
 export default {
   setup() {
     return {
-      keep: computed(() => AppState.activeKeep),
+      vault: computed(() => AppState.activeVault),
       isCreator: computed(
         () => AppState.activeKeep?.creatorId == AppState.activeProfile?.id
       ),
     };
   },
-  components: { KeepForm },
+  components: { VaultForm },
 };
 </script>
 

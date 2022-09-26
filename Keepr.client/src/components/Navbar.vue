@@ -19,12 +19,12 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
-          <router-link
-            :to="{ name: 'Profile' }"
+          <!-- <router-link
+            :to="{ name: 'Profile', params: { profileId: id } }"
             class="btn text-success lighten-30 selectable text-uppercase"
           >
             Profile
-          </router-link>
+          </router-link> -->
         </li>
       </ul>
       <!-- LOGIN COMPONENT HERE -->
@@ -34,9 +34,14 @@
 </template>
 
 <script>
+import { computed } from "@vue/reactivity";
+import { AppState } from "../AppState.js";
+
 export default {
   setup() {
-    return {};
+    return {
+      // profile: computed(() => AppState.activeProfile),
+    };
   },
 };
 </script>

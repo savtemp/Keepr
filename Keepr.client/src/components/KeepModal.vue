@@ -116,7 +116,8 @@ export default {
   setup() {
     return {
       keep: computed(() => AppState.activeKeep),
-      account: computed(() => AppState.account),
+      // account: computed(() => AppState.account),
+      profile: computed(() => AppState.activeProfile),
     };
   },
 };
