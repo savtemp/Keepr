@@ -4,9 +4,13 @@
       <img class="img-fluid" :src="keep.img" alt="" @click="setActive" />
       <p>{{ keep.name }}</p>
       <router-link
-        :to="{ name: 'Profile', params: { profileId: keep.creator.id } }"
+        :to="{ name: 'Profile', params: { profileId: keep.creator?.id } }"
       >
-        <img class="img-fluid profile-img" :src="keep.creator.picture" alt="" />
+        <img
+          class="img-fluid profile-img"
+          :src="keep.creator?.picture"
+          alt=""
+        />
       </router-link>
     </div>
   </div>

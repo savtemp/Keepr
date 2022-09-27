@@ -53,14 +53,14 @@ CREATE TABLE IF NOT EXISTS vaults(
 DROP TABLE vaults;
 
 INSERT INTO vaults
-(creatorId, name, description, img, isPrivate)
+(creatorId, name, description, img)
 VALUES
-('63237a6e2d055737269fbc1a', 'Halloween Vault', 'A sick vault for all things spooky this halloween', 'https://images.unsplash.com/photo-1633745466663-c2bc704a8f9b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTd8fGhhbGxvd2VlbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60', false);
+('63237a6e2d055737269fbc1a', 'Halloween Vault', 'A sick vault for all things spooky this halloween', 'https://images.unsplash.com/photo-1633745466663-c2bc704a8f9b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTd8fGhhbGxvd2VlbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60');
 
 INSERT INTO vaults
-(creatorId, name, description, img, isPrivate)
+(creatorId, name, description, img)
 VALUES
-('632de1a3bcc159f396782a2b', 'Corns Vault', 'All my hopes and dreams', 'https://images.unsplash.com/photo-1531171000775-75f0213ca8a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y29ybnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60', false);
+('632de1a3bcc159f396782a2b', 'Corns Vault', 'All my hopes and dreams', 'https://images.unsplash.com/photo-1531171000775-75f0213ca8a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y29ybnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60');
 
 SELECT * FROM vaults v
 JOIN accounts a ON a.id = v.creatorId;

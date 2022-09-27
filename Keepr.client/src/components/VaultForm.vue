@@ -37,19 +37,23 @@
       ></textarea>
     </div>
     <div class="checkbox">
-      <label class="form-control" for="vault-isPrivate"
-        ><input
+      <label class="form-control" for="isPrivate">
+        <input
           type="checkbox"
-          name="vault-isPrivate"
-          id="vault-isPrivate"
+          name="isPrivate"
+          id="isPrivate"
+          v-model="editable.isPrivate"
         />Private?</label
       >
-      <label class="form-control" for="vault-isPrivate"
-        >Private Vaults can only be seen by you</label
-      >
+      <p>Private Vaults can only be seen by you</p>
     </div>
     <div>
-      <button class="btn btn-success" type="submit" title="submit form">
+      <button
+        class="btn btn-success"
+        type="submit"
+        title="submit form"
+        data-bs-dismiss="modal"
+      >
         Submit
       </button>
     </div>
@@ -60,17 +64,11 @@
 import { logger } from "../utils/Logger.js";
 import { vaultsService } from "../services/VaultsService.js";
 import Pop from "../utils/Pop.js";
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 
 export default {
-  props: { vaultData: { type: Object, required: true, default: {} } },
-  setup(props) {
-    const editable = ref({});
-
-    watchEffect(() => {
-      editable.value = props.vaultData;
-    });
-
+  setup() {
+    const editable = ref({ isPrivate: false });
     return {
       editable,
 
@@ -79,10 +77,11 @@ export default {
           logger.log("form data", editable.value);
           if (!editable.value.id) {
             await vaultsService.create(editable.value);
+            editable.value = {};
             Pop.toast("Vault Created!", "warning");
-          } else {
-            await vaultsService.edit(editable.value);
-            Pop.toast("Vault Edited", "info");
+            // } else {
+            //   await vaultsService.edit(editable.value);
+            //   Pop.toast("Vault Edited", "info");
           }
         } catch (error) {
           logger.log(error);

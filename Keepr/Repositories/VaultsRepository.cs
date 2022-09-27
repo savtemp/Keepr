@@ -33,7 +33,6 @@ namespace Keepr.Repositories
 
     }
 
-    // REVIEW there is no Img on UML do I need to add it in - there is one in the postman test
     internal Vault Create(Vault vaultData)
     {
       string sql = @"

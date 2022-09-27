@@ -18,7 +18,7 @@ class VaultsService {
   async create(vault) {
     const res = await api.post(`/api/vaults`, vault);
     logger.log("Created vault", res.data);
-    AppState.profileVaults.push(res.data);
+    AppState.profileVaults.unshift(res.data);
   }
 
   async edit(vault) {

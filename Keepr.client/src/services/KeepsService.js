@@ -18,7 +18,8 @@ class KeepsService {
   async create(keep) {
     const res = await api.post(`/api/keeps`, keep);
     logger.log("Created keep", res.data);
-    AppState.keeps.push(res.data);
+    AppState.profileKeeps.push(res.data);
+    AppState.keeps.unshift(res.data);
   }
 
   async update(keep) {
@@ -28,8 +29,9 @@ class KeepsService {
   }
 
   async deleteKeep(id) {
-    const res = await api.delete(`/api/keeps/` + id);
+    const res = await api.delete(`/api/keeps/${id}`);
     logger.log("Deleting keep", res.data);
+    AppState.profileKeeps = AppState.profileKeeps.filter((k) => k.id != id);
     AppState.keeps = AppState.keeps.filter((k) => k.id != id);
   }
 }

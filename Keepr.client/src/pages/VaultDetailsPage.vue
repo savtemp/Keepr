@@ -10,7 +10,9 @@
         </p>
       </div>
       <div class="col-md-3">
-        <button class="btn btn-danger">Delete Vault</button>
+        <button class="btn btn-danger" @click="deleteVault">
+          Delete Vault
+        </button>
       </div>
     </div>
     <div class="row">
@@ -30,6 +32,7 @@ import { vaultsService } from "../services/VaultsService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 import VaultKeepCard from "../components/VaultKeepCard.vue";
+import { router } from "../router.js";
 
 export default {
   setup() {
@@ -62,6 +65,7 @@ export default {
         try {
           await vaultsService.deleteVault(route.params.vaultId);
           Pop.toast("Vault Deleted", "success");
+          router.push({ name: "Home" });
         } catch (error) {
           Pop.error(error.message);
           logger.log(error);

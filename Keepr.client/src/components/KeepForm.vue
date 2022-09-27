@@ -37,7 +37,11 @@
       ></textarea>
     </div>
     <div>
-      <button class="btn btn-success" type="submit" title="submit form">
+      <button
+        class="btn btn-success"
+        title="submit form"
+        data-bs-dismiss="modal"
+      >
         Submit
       </button>
       <!-- <button class="btn btn-warning" type="button" title="edit form">
@@ -48,19 +52,14 @@
 </template>
 
 <script>
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 import { keepsService } from "../services/KeepsService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 
 export default {
-  props: { keepData: { type: Object, required: true, default: {} } },
-  setup(props) {
+  setup() {
     const editable = ref({});
-
-    watchEffect(() => {
-      editable.value = props.keepData;
-    });
 
     return {
       editable,
@@ -70,10 +69,12 @@ export default {
           logger.log("form data", editable.value);
           if (!editable.value.id) {
             await keepsService.create(editable.value);
+            editable.value = {};
             Pop.toast("Keep Created!", "warning");
-          } else {
-            await keepsService.update(editable.value);
-            Pop.toast("Keep Updated!", "info");
+            // }
+            // else {
+            //   await keepsService.update(editable.value);
+            //   Pop.toast("Keep Updated!", "info");
           }
         } catch (error) {
           logger.log(error);

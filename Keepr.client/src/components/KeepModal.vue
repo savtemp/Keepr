@@ -52,20 +52,24 @@
                       Add To Vault
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li>
-                        <a class="dropdown-item" href="#">Another action</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="#"
-                          >Something else here</a
+                      <li v-for="v in vaults" :key="v.id">
+                        <a
+                          class="dropdown-item"
+                          href="#"
+                          @click="addToVault(keep.id, v.id)"
+                          :vault="v"
+                          >{{ v.name }}</a
                         >
                       </li>
                     </ul>
                   </div>
                 </div>
                 <div class="col-md-1 text-center">
-                  <i class="fs-3 mdi mdi-delete-outline"></i>
+                  <i
+                    class="fs-3 mdi mdi-delete-outline"
+                    @click="deleteKeep(keep?.id)"
+                    data-bs-dismiss="modal"
+                  ></i>
                 </div>
                 <div class="col-md-6">
                   <div class="row" data-bs-dismiss="modal">
@@ -102,11 +106,39 @@
 <script>
 import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState.js";
+import { router } from "../router.js";
+import { keepsService } from "../services/KeepsService.js";
+import { vaultKeepsService } from "../services/VaultKeepsService.js";
+import { logger } from "../utils/Logger.js";
+import Pop from "../utils/Pop.js";
 
 export default {
   setup() {
     return {
       keep: computed(() => AppState.activeKeep),
+      vaults: computed(() => AppState.profileVaults),
+
+      async deleteKeep(id) {
+        try {
+          await keepsService.deleteKeep(id);
+          Pop.toast("Keep Deleted", "success");
+          router.push({ name: "Home" });
+        } catch (error) {
+          Pop.error(error.message);
+          logger.log(error);
+        }
+      },
+
+      async addToVault(keepId, vaultId) {
+        try {
+          let newVaultKeep = { keepId, vaultId };
+          await vaultKeepsService.createVaultKeep(newVaultKeep);
+          Pop.toast("Keep added to Vault!", "success");
+        } catch (error) {
+          Pop.error(error.message);
+          logger.log(error);
+        }
+      },
     };
   },
 };

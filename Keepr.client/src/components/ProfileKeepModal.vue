@@ -47,7 +47,11 @@
                   </button>
                 </div>
                 <div class="col-md-1 text-center">
-                  <i class="fs-3 mdi mdi-delete-outline"></i>
+                  <i
+                    class="fs-3 mdi mdi-delete-outline"
+                    @click="deleteKeep(keep.id)"
+                    data-bs-dismiss="modal"
+                  ></i>
                 </div>
                 <div class="col-md-6">
                   <div class="row" data-bs-dismiss="modal">
@@ -84,11 +88,25 @@
 <script>
 import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState.js";
+import { router } from "../router.js";
+import { keepsService } from "../services/KeepsService.js";
+import { logger } from "../utils/Logger.js";
+import Pop from "../utils/Pop.js";
 
 export default {
   setup() {
     return {
       keep: computed(() => AppState.activeKeep),
+
+      async deleteKeep(id) {
+        try {
+          await keepsService.deleteKeep(id);
+          Pop.toast("Keep Deleted", "success");
+        } catch (error) {
+          Pop.error(error.message);
+          logger.log(error);
+        }
+      },
     };
   },
 };

@@ -1,7 +1,10 @@
 <template>
-  <div class="rounded border elevation-2 selectable no-select">
+  <div
+    @click="setActive"
+    class="rounded border elevation-2 selectable no-select"
+  >
     <div class="p-1">
-      <img class="img-fluid" :src="keep.img" alt="" @click="setActive" />
+      <img class="img-fluid" :src="keep.img" alt="" />
       <p>{{ keep.name }}</p>
     </div>
   </div>
