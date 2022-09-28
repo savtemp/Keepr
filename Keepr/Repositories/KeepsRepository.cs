@@ -100,7 +100,7 @@ namespace Keepr.Repositories
       return keepData;
     }
 
-    internal Keep IncreaseViews(int id)
+    internal void IncreaseKepts(int id)
     {
       // TODO refer to above update... BUT you will only update/set the kepts and add one
       string sql = @"
@@ -108,7 +108,6 @@ namespace Keepr.Repositories
       WHERE id = @id; 
       ";
       _db.Execute(sql, new { id });
-      return IncreaseViews(id);
     }
 
     internal void Delete(int id)

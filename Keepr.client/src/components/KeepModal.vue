@@ -40,11 +40,10 @@
                   <p>{{ keep?.description }}</p>
                 </div>
               </div>
-              <footer class="row justify-content-around" v-if="account.id">
+              <!-- TODO only show this if you are logged in -->
+              <!-- v-if="account" -->
+              <footer class="row justify-content-around">
                 <div class="col-md-4">
-                  <button @click="removeKeepFromVault()" class="btn btn-danger">
-                    Remove From Vault
-                  </button>
                   <div class="dropdown">
                     <button
                       class="btn btn-success dropdown-toggle"
@@ -55,23 +54,20 @@
                       Add To Vault
                     </button>
                     <ul class="dropdown-menu">
-                      <li v-for="v in vaults" :key="v.id">
+                      <li v-for="v in vaults" :key="v?.id">
                         <a
                           class="dropdown-item"
                           href="#"
                           data-bs-dismiss="modal"
-                          @click="addToVault(keep.id, v.id)"
+                          @click="addToVault(keep.id, v?.id)"
                           :vault="v"
-                          >{{ v.name }}</a
+                          >{{ v?.name }}</a
                         >
                       </li>
                     </ul>
                   </div>
                 </div>
-                <div
-                  class="col-md-1 text-center"
-                  v-if="keep.creatorId == account.id"
-                >
+                <div class="col-md-1 text-center">
                   <i
                     class="fs-3 mdi mdi-delete-outline"
                     @click="deleteKeep(keep.id)"
@@ -123,10 +119,9 @@ export default {
   setup() {
     return {
       keep: computed(() => AppState.activeKeep),
-      vaults: computed(() => AppState.profileVaults),
+      vaults: computed(() => AppState.account),
       profile: computed(() => AppState.activeProfile),
       account: computed(() => AppState.account),
-      // vaultKeep: computed(() => AppState.activeVaultKeep),
 
       async deleteKeep(id) {
         try {
