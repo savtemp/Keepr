@@ -32,10 +32,10 @@
           <i @click="newKeep" class="mdi mdi-plus"></i>
         </div>
       </div>
-      <!-- TODO this might need to be a container to do masonry -->
-      <div class="col-md-3" v-for="k in keeps" :key="k.id">
+    </div>
+    <div class="masonry">
+      <div v-for="k in keeps" :key="k.id">
         <ProfileKeepCard :keep="k" />
-        <!-- <img class="img-fluid cover-img" :src="k.img" alt="" /> -->
       </div>
     </div>
   </div>
@@ -131,5 +131,15 @@ export default {
   height: 150px;
   width: 150px;
   object-fit: cover;
+}
+
+.masonry {
+  columns: 200px;
+  column-gap: 1em;
+
+  div {
+    display: block;
+    margin-bottom: 1em;
+  }
 }
 </style>

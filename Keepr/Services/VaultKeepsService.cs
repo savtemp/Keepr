@@ -9,11 +9,16 @@ namespace Keepr.Services
   {
     private readonly VaultKeepsRepository _vaultKeepRepo;
     private readonly VaultsService _vaultsService;
+    private readonly KeepsService _keepsService;
 
-    public VaultKeepsService(VaultKeepsRepository vaultKeepRepo, VaultsService vaultsService)
+    private readonly KeepsRepository _keepsRepo;
+
+    public VaultKeepsService(VaultKeepsRepository vaultKeepRepo, VaultsService vaultsService, KeepsService keepsService, KeepsRepository keepsRepo)
     {
       _vaultKeepRepo = vaultKeepRepo;
       _vaultsService = vaultsService;
+      _keepsService = keepsService;
+      _keepsRepo = keepsRepo;
     }
 
     // NOTE don't include null check so that we can see keeps

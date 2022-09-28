@@ -20,9 +20,12 @@ namespace Keepr.Repositories
       string sql = @"
         SELECT 
             k.*,
+            COUNT(vk.id) AS kept,
             a.*
         FROM keeps k
-        JOIN accounts a ON a.id = k.creatorId;
+        LEFT JOIN vaultkeeps vk ON vk.KeepId = k.id
+        JOIN accounts a ON a.id = k.creatorId
+        GROUP BY(k.id);
       ";
       return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) =>
       {
@@ -36,10 +39,13 @@ namespace Keepr.Repositories
       string sql = @"
     SELECT 
         k.*,
+        COUNT(vk.id) AS kept,
         a.*
     FROM keeps k 
+    LEFT JOIN vaultkeeps vk ON vk.KeepId = k.id
     JOIN accounts a ON a.id = k.creatorId
-    WHERE k.id = @id;
+    WHERE k.id = @id
+    GROUP BY(k.id);
       ";
       return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) =>
       {
@@ -87,7 +93,6 @@ namespace Keepr.Repositories
       description = @description,
       img = @img,
       views = @views,
-      kept = @kept,
       shares = @shares
       WHERE id = @id;
       ";

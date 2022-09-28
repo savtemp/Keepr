@@ -3,7 +3,7 @@
     <div class="p-1">
       <img class="img-fluid" :src="keep.img" alt="" @click="setActive" />
       <p>{{ keep.name }}</p>
-      <router-link
+      <!-- <router-link
         :to="{ name: 'Profile', params: { profileId: keep.creator?.id } }"
       >
         <img
@@ -11,7 +11,7 @@
           :src="keep.creator?.picture"
           alt=""
         />
-      </router-link>
+      </router-link> -->
     </div>
   </div>
   <VaultKeepModal />

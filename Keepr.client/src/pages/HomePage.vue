@@ -29,7 +29,7 @@ export default {
       try {
         await keepsService.getKeeps();
       } catch (error) {
-        Pop.log(error);
+        Pop.error(error);
       }
     }
     return {

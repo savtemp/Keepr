@@ -56,6 +56,7 @@
                         <a
                           class="dropdown-item"
                           href="#"
+                          data-bs-dismiss="modal"
                           @click="addToVault(keep.id, v.id)"
                           :vault="v"
                           >{{ v.name }}</a
