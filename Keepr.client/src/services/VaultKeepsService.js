@@ -11,6 +11,13 @@ class VaultKeepsService {
     AppState.vaultKeeps.push(res.data);
   }
 
+  async setActive(vaultKeep) {
+    logger.log("setting active", vaultKeep);
+    const foundKeep = await api.get(`api/keeps/${vaultKeep.id}`);
+    logger.log(foundKeep.data);
+    AppState.activeVaultKeep = vaultKeep;
+  }
+
   async deleteVaultKeep(id) {
     const res = await api.delete(`/api/vaultkeeps/${id}`);
     logger.log("Deleting VaultKeep", res.data);

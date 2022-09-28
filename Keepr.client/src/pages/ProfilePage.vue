@@ -6,8 +6,8 @@
         <img class="img-fluid" :src="profile.picture" alt="" />
         <div>
           <p>{{ profile.name }}</p>
-          <p>Vaults:</p>
-          <p>Keeps:</p>
+          <p>Vaults: {{ vaults.length }}</p>
+          <p>Keeps: {{ keeps.length }}</p>
         </div>
       </div>
     </div>
@@ -16,7 +16,9 @@
       <div class="col-md-12 fs-2">
         <div class="d-flex">
           <p>Vaults</p>
-          <i @click="newVault" class="mdi mdi-plus"></i>
+          <div v-if="profile.id == account.id">
+            <i @click="newVault" class="mdi mdi-plus"></i>
+          </div>
         </div>
       </div>
       <!-- TODO might make this a fake carousel -->
@@ -26,10 +28,11 @@
     </div>
     <div class="row">
       <div class="col-md-12 fs-2">
-        <!-- TODO v-if="profile.id == account.id" OR v-if="isCreator"-->
         <div class="d-flex">
           <p>Keeps</p>
-          <i @click="newKeep" class="mdi mdi-plus"></i>
+          <div v-if="profile.id == account.id">
+            <i @click="newKeep" class="mdi mdi-plus"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -100,6 +103,7 @@ export default {
       profile: computed(() => AppState.activeProfile),
       keeps: computed(() => AppState.profileKeeps),
       vaults: computed(() => AppState.profileVaults),
+      activeVault: computed(() => AppState.activeVault),
 
       async newVault() {
         try {

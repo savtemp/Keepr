@@ -46,6 +46,10 @@ namespace Keepr.Services
       {
         throw new Exception($"You cannot create a Keep in {vault.Name}, you are not the Vault creator.");
       }
+      // TODO go and find the keep for this vaultKeep...keepId
+      Keep keep = _keepsRepo.GetById(vaultKeepData.KeepId);
+      // TODO increase the kept count on that keep...this will look like an edit in your keeps repo
+      keep.Kept++;
       return _vaultKeepRepo.Create(vaultKeepData);
     }
 

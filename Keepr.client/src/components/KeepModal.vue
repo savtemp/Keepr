@@ -40,8 +40,11 @@
                   <p>{{ keep?.description }}</p>
                 </div>
               </div>
-              <footer class="row justify-content-around">
+              <footer class="row justify-content-around" v-if="account.id">
                 <div class="col-md-4">
+                  <button @click="removeKeepFromVault()" class="btn btn-danger">
+                    Remove From Vault
+                  </button>
                   <div class="dropdown">
                     <button
                       class="btn btn-success dropdown-toggle"
@@ -65,10 +68,13 @@
                     </ul>
                   </div>
                 </div>
-                <div class="col-md-1 text-center">
+                <div
+                  class="col-md-1 text-center"
+                  v-if="keep.creatorId == account.id"
+                >
                   <i
                     class="fs-3 mdi mdi-delete-outline"
-                    @click="deleteKeep(keep?.id)"
+                    @click="deleteKeep(keep.id)"
                     data-bs-dismiss="modal"
                   ></i>
                 </div>
@@ -118,6 +124,9 @@ export default {
     return {
       keep: computed(() => AppState.activeKeep),
       vaults: computed(() => AppState.profileVaults),
+      profile: computed(() => AppState.activeProfile),
+      account: computed(() => AppState.account),
+      // vaultKeep: computed(() => AppState.activeVaultKeep),
 
       async deleteKeep(id) {
         try {
@@ -125,7 +134,7 @@ export default {
           Pop.toast("Keep Deleted", "success");
           router.push({ name: "Home" });
         } catch (error) {
-          Pop.error(error.message);
+          Pop.error("You cannot delete a Keep that is not yours.", "warning");
           logger.log(error);
         }
       },
@@ -134,7 +143,24 @@ export default {
         try {
           let newVaultKeep = { keepId, vaultId };
           await vaultKeepsService.createVaultKeep(newVaultKeep);
+          logger.log(newVaultKeep);
           Pop.toast("Keep added to Vault!", "success");
+        } catch (error) {
+          Pop.error(error.message);
+          logger.log(error);
+        }
+      },
+
+      async removeKeepFromVault() {
+        try {
+          await vaultKeepsService.deleteVaultKeep(
+            keep.vaultKeepViewModel.vaultKeepId
+          );
+          Pop.toast("Keep removed from Vault.");
+          router.push({
+            name: "Profile",
+            params: { profileId: keep.creator.id },
+          });
         } catch (error) {
           Pop.error(error.message);
           logger.log(error);

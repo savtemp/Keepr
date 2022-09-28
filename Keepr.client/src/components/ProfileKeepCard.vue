@@ -8,14 +8,15 @@
       <p>{{ keep.name }}</p>
     </div>
   </div>
-  <ProfileKeepModal />
+
+  <KeepModal />
 </template>
 
 <script>
 import { Modal } from "bootstrap";
 import { keepsService } from "../services/KeepsService.js";
 import { logger } from "../utils/Logger.js";
-import ProfileKeepModal from "./ProfileKeepModal.vue";
+import KeepModal from "./KeepModal.vue";
 
 export default {
   props: { keep: { type: Object, required: true } },
@@ -24,7 +25,7 @@ export default {
       async setActive() {
         try {
           Modal.getOrCreateInstance(
-            document.getElementById("profileKeepModal")
+            document.getElementById("keepModal")
           ).toggle();
           await keepsService.getById(props.keep.id);
         } catch (error) {
@@ -33,7 +34,7 @@ export default {
       },
     };
   },
-  components: { ProfileKeepModal },
+  components: { KeepModal },
 };
 </script>
 

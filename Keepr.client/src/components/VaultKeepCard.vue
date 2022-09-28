@@ -1,38 +1,44 @@
 <template>
   <div class="rounded border elevation-2 selectable no-select">
     <div class="p-1">
-      <img class="img-fluid" :src="keep.img" alt="" @click="setActive" />
-      <p>{{ keep.name }}</p>
-      <!-- <router-link
-        :to="{ name: 'Profile', params: { profileId: keep.creator?.id } }"
-      >
-        <img
-          class="img-fluid profile-img"
-          :src="keep.creator?.picture"
-          alt=""
-        />
-      </router-link> -->
+      <img
+        class="img-fluid"
+        :src="vaultKeepViewModel.img"
+        alt=""
+        @click="setActive"
+      />
+      <p>{{ vaultKeepViewModel.name }}</p>
     </div>
   </div>
   <VaultKeepModal />
 </template>
 
 <script>
+import { findDir } from "@vue/compiler-core";
 import { Modal } from "bootstrap";
+import { AppState } from "../AppState.js";
 import { keepsService } from "../services/KeepsService.js";
+import { vaultKeepsService } from "../services/VaultKeepsService.js";
 import { logger } from "../utils/Logger.js";
 import VaultKeepModal from "./VaultKeepModal.vue";
 
 export default {
-  props: { keep: { type: Object, required: true } },
+  props: { vaultKeepViewModel: { type: Object, required: true } },
   setup(props) {
     return {
       async setActive() {
         try {
+          // console.log("what is a vaultKeepViewModel", props.vaultKeepViewModel);
+
+          // let vaultKeep = props.vaultKeepViewModel;
+          // let activeKeep = AppState.activeKeep;
+          let activeVaultKeep = props.vaultKeepViewModel;
+          console.log("what is an activeVaultKeep", activeVaultKeep);
+          await vaultKeepsService.setActive(activeVaultKeep);
+          activeVaultKeep.views++;
           Modal.getOrCreateInstance(
             document.getElementById("vaultKeepModal")
           ).toggle();
-          await keepsService.getById(props.keep.id);
         } catch (error) {
           logger.log(error);
         }

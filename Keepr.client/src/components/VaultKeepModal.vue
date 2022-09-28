@@ -11,7 +11,7 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-6">
-              <img class="img-fluid" :src="keep?.img" alt="" />
+              <img class="img-fluid" :src="vaultKeepViewModel?.img" alt="" />
             </div>
             <div class="col-6">
               <header class="row">
@@ -25,49 +25,52 @@
               </header>
               <div class="row">
                 <div class="col-12 text-center">
-                  <i class="mdi mdi-eye">{{ keep?.views }}</i>
-                  <i class="mdi mdi-alpha-k-box-outline">{{ keep?.kept }}</i>
+                  <i class="mdi mdi-eye">{{ vaultKeepViewModel?.views }}</i>
+                  <i class="mdi mdi-alpha-k-box-outline">{{
+                    vaultKeepViewModel?.kept
+                  }}</i>
                   <i class="mdi mdi-share-variant-outline">{{
-                    keep?.shares
+                    vaultKeepViewModel?.shares
                   }}</i>
                 </div>
               </div>
               <div class="row">
                 <div class="col-12">
-                  <p>{{ keep?.name }}</p>
+                  <p>{{ vaultKeepViewModel?.name }}</p>
                 </div>
                 <div class="col-10">
-                  <p>{{ keep?.description }}</p>
+                  <p>{{ vaultKeepViewModel?.description }}</p>
                 </div>
               </div>
               <footer class="row justify-content-around">
                 <div class="col-md-4">
-                  <button class="btn btn-secondary" type="button">
-                    Remove from Vault
+                  <button
+                    @click="removeKeepFromVault(vaultKeepViewModel.vaultKeepId)"
+                    class="btn btn-danger"
+                    data-bs-dismiss="modal"
+                  >
+                    Remove From Vault
                   </button>
-                </div>
-                <div class="col-md-1 text-center">
-                  <i class="fs-3 mdi mdi-delete-outline"></i>
                 </div>
                 <div class="col-md-6">
                   <div class="row" data-bs-dismiss="modal">
                     <router-link
                       class="col-12 d-flex"
-                      v-if="keep?.id"
+                      v-if="vaultKeepViewModel?.id"
                       :to="{
                         name: 'Profile',
-                        params: { profileId: keep?.creator?.id },
+                        params: { profileId: vaultKeepViewModel?.creator?.id },
                       }"
                     >
                       <div>
                         <img
                           class="img-fluid profile-img"
-                          :src="keep?.creator?.picture"
+                          :src="vaultKeepViewModel?.creator?.picture"
                           alt=""
                         />
                       </div>
                       <div>
-                        <p>{{ keep?.creator?.name }}</p>
+                        <p>{{ vaultKeepViewModel?.creator?.name }}</p>
                       </div>
                     </router-link>
                   </div>
@@ -83,12 +86,28 @@
 
 <script>
 import { computed } from "@vue/reactivity";
+import { useRoute } from "vue-router";
 import { AppState } from "../AppState.js";
+import { router } from "../router.js";
+import { vaultKeepsService } from "../services/VaultKeepsService.js";
+import { logger } from "../utils/Logger.js";
+import Pop from "../utils/Pop.js";
 
 export default {
   setup() {
     return {
-      keep: computed(() => AppState.activeKeep),
+      vaultKeepViewModel: computed(() => AppState.activeVaultKeep),
+
+      async removeKeepFromVault(id) {
+        try {
+          console.log(AppState.vaultKeeps);
+          await vaultKeepsService.deleteVaultKeep(id);
+          Pop.toast("Keep removed from Vault.");
+        } catch (error) {
+          Pop.error(error.message);
+          logger.log(error);
+        }
+      },
     };
   },
 };

@@ -5,14 +5,22 @@ import { api } from "./AxiosService.js";
 class KeepsService {
   async getKeeps() {
     const res = await api.get(`/api/keeps`);
-    // logger.log("Getting keeps", res.data);
+    logger.log("Getting keeps", res.data);
     AppState.keeps = res.data;
   }
 
   async getById(id) {
     const res = await api.get(`/api/keeps/${id}`);
-    // logger.log("Getting keep by Id", res.data);
+    logger.log("Getting keep by Id", res.data);
     AppState.activeKeep = res.data;
+
+    // let activeKeep = AppState.keeps;
+    // let vaultKeeps = AppState.vaultKeeps;
+    // activeVaultKeep = activeKeep.concat(vaultKeeps);
+
+    // AppState.activeVaultKeep = res.data;
+    console.log("what is an activeVaultKeep", res.data);
+    // AppState.vaultKeeps = res.data;
   }
 
   async create(keep) {
