@@ -1,7 +1,10 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3 py-0">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <i class="text-center text-dark mdi mdi-alpha-k-box-outline"></i>
+      <i
+        class="text-center text-dark mdi mdi-alpha-k-box-outline"
+        title="Go To HomePage"
+      ></i>
     </router-link>
 
     <!-- SECTION search form -->
