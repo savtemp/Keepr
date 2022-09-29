@@ -16,7 +16,7 @@ class AccountService {
     try {
       const res = await api.get(`/account/vaults`);
       // logger.log("getting account vaults on page load", res.data);
-      AppState.account = res.data;
+      AppState.myVaults = res.data;
       logger.log("Getting account vaults on page load", AppState.account);
     } catch (error) {
       logger.log(error);

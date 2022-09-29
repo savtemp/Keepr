@@ -80,6 +80,7 @@
                     </div>
                     <div class="col-md-1 text-center">
                       <i
+                        v-if="account.id == keep?.creatorId"
                         class="fs-3 mdi mdi-delete-outline"
                         @click="deleteKeep(keep.id)"
                         data-bs-dismiss="modal"
@@ -132,7 +133,7 @@ export default {
   setup() {
     return {
       keep: computed(() => AppState.activeKeep),
-      vaults: computed(() => AppState.account),
+      vaults: computed(() => AppState.myVaults),
       profile: computed(() => AppState.activeProfile),
       account: computed(() => AppState.account),
 

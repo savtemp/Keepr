@@ -29,9 +29,12 @@
         class="dropdown-menu p-0 list-group w-100"
         aria-labelledby="authDropdown"
       >
-        <router-link :to="{ name: 'Account' }">
+        <router-link
+          v-if="user.id"
+          :to="{ name: 'Profile', params: { profileId: user.id } }"
+        >
           <div class="list-group-item list-group-item-action hoverable">
-            Manage Account
+            Your Profile
           </div>
         </router-link>
         <div

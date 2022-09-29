@@ -1,5 +1,5 @@
 <template>
-  <nav class="d-flex navbar-expand-lg navbar-dark bg-primary px-3 py-0">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3 py-0">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <i class="text-center text-dark mdi mdi-alpha-k-box-outline"></i>
     </router-link>
