@@ -11,7 +11,7 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-6">
-              <img class="img-fluid" :src="keep?.img" alt="" />
+              <img class="img-fluid rounded" :src="keep?.img" alt="" />
             </div>
             <div class="col-6">
               <header class="row">
@@ -24,80 +24,93 @@
                 </div>
               </header>
               <div class="row">
-                <div class="col-12 text-center">
-                  <i class="mdi mdi-eye">{{ keep?.views }}</i>
-                  <i class="mdi mdi-alpha-k-box-outline">{{ keep?.kept }}</i>
-                  <i class="mdi mdi-share-variant-outline">{{
-                    keep?.shares
-                  }}</i>
+                <div class="col-12 text-center d-flex justify-content-center">
+                  <div class="d-flex px-2">
+                    <i class="px-1 text-primary mdi mdi-eye"></i>
+                    <p>{{ keep?.views }}</p>
+                  </div>
+                  <div class="d-flex px-2">
+                    <i
+                      class="px-1 text-primary mdi mdi-alpha-k-box-outline"
+                    ></i>
+                    <p>{{ keep?.kept }}</p>
+                  </div>
+                  <div class="d-flex px-2">
+                    <i
+                      class="px-1 text-primary mdi mdi-share-variant-outline"
+                    ></i>
+                    <p>{{ keep?.shares }}</p>
+                  </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-12">
-                  <p>{{ keep?.name }}</p>
-                </div>
-                <div class="col-10">
-                  <p>{{ keep?.description }}</p>
-                </div>
-              </div>
-              <!-- TODO only show this if you are logged in -->
-              <!-- v-if="account" -->
-              <footer class="row justify-content-around">
-                <div class="col-md-4">
-                  <div class="dropdown">
-                    <button
-                      class="btn btn-success dropdown-toggle"
-                      type="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Add To Vault
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li v-for="v in vaults" :key="v?.id">
-                        <a
-                          class="dropdown-item"
-                          href="#"
-                          data-bs-dismiss="modal"
-                          @click="addToVault(keep.id, v?.id)"
-                          :vault="v"
-                          >{{ v?.name }}</a
+              <div class="row keep-body">
+                <div
+                  class="col-md-12 d-flex flex-column justify-content-between"
+                >
+                  <div class="row">
+                    <div class="col-md-12 pt-4">
+                      <p class="fs-1 text-center">{{ keep?.name }}</p>
+                      <p class="pt-3">{{ keep?.description }}</p>
+                    </div>
+                  </div>
+                  <footer class="row justify-content-around">
+                    <div class="col-md-4">
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-success dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
                         >
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="col-md-1 text-center">
-                  <i
-                    class="fs-3 mdi mdi-delete-outline"
-                    @click="deleteKeep(keep.id)"
-                    data-bs-dismiss="modal"
-                  ></i>
-                </div>
-                <div class="col-md-6">
-                  <div class="row" data-bs-dismiss="modal">
-                    <router-link
-                      class="col-12 d-flex"
-                      v-if="keep?.id"
-                      :to="{
-                        name: 'Profile',
-                        params: { profileId: keep?.creator?.id },
-                      }"
-                    >
-                      <div>
-                        <img
-                          class="img-fluid profile-img"
-                          :src="keep?.creator?.picture"
-                          alt=""
-                        />
+                          Add To Vault
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li v-for="v in vaults" :key="v?.id">
+                            <a
+                              class="dropdown-item"
+                              href="#"
+                              data-bs-dismiss="modal"
+                              @click="addToVault(keep.id, v?.id)"
+                              :vault="v"
+                              >{{ v?.name }}</a
+                            >
+                          </li>
+                        </ul>
                       </div>
-                      <div>
-                        <p>{{ keep?.creator?.name }}</p>
+                    </div>
+                    <div class="col-md-1 text-center">
+                      <i
+                        class="fs-3 mdi mdi-delete-outline"
+                        @click="deleteKeep(keep.id)"
+                        data-bs-dismiss="modal"
+                      ></i>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row" data-bs-dismiss="modal">
+                        <router-link
+                          class="col-12 d-flex justify-content-center"
+                          v-if="keep?.id"
+                          :to="{
+                            name: 'Profile',
+                            params: { profileId: keep?.creator?.id },
+                          }"
+                        >
+                          <div class="px-2">
+                            <img
+                              class="img-fluid profile-img"
+                              :src="keep?.creator?.picture"
+                              alt=""
+                            />
+                          </div>
+                          <div>
+                            <p>{{ keep?.creator?.name }}</p>
+                          </div>
+                        </router-link>
                       </div>
-                    </router-link>
-                  </div>
+                    </div>
+                  </footer>
                 </div>
-              </footer>
+              </div>
             </div>
           </div>
         </div>
@@ -180,5 +193,9 @@ export default {
   border-radius: 50%;
   height: 2em;
   width: 2em;
+}
+
+.keep-body {
+  min-height: 78%;
 }
 </style>

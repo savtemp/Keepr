@@ -2,30 +2,25 @@
 
 <template>
   <div class="container-fluid">
-    <div class="row">
+    <div class="row m-3 pt-4">
       <div class="col-md-9">
-        <p class="fs-1">{{ vault.name }}</p>
+        <p class="fs-1 text-dark">{{ vault.name }}</p>
         <p>
           Keeps: <span>{{ vaultKeepViewModel.length }}</span>
         </p>
       </div>
       <div class="col-md-3">
-        <!-- TODO potentially move this? -->
         <button
           v-if="vault.creatorId == profile.id"
-          class="btn btn-danger"
+          class="btn btn-outline-dark"
           @click="deleteVault"
         >
           Delete Vault
         </button>
       </div>
     </div>
-    <div class="row">
-      <div
-        class="col-md-3"
-        v-for="vk in vaultKeepViewModel"
-        :key="vk.vaultKeepId"
-      >
+    <div class="masonry">
+      <div v-for="vk in vaultKeepViewModel" :key="vk.vaultKeepId">
         <VaultKeepCard :vaultKeepViewModel="vk" />
       </div>
     </div>
@@ -48,7 +43,18 @@ export default {
     const route = useRoute();
     onMounted(() => {
       getVaultKeeps();
+      getVaultById();
     });
+
+    async function getVaultById() {
+      try {
+        await vaultsService.getVaultById(route.params.vaultId);
+        // console.log("getting vault by Id", route.params.vaultId);
+      } catch (error) {
+        Pop.error(error.message);
+        logger.log(error);
+      }
+    }
 
     async function getVaultKeeps() {
       try {
@@ -58,12 +64,12 @@ export default {
         logger.log(error);
       }
     }
+
     return {
       vault: computed(() => AppState.activeVault),
       keeps: computed(() => AppState.activeKeep),
       vaultKeepViewModel: computed(() => AppState.vaultKeeps),
       profile: computed(() => AppState.activeProfile),
-      account: computed(() => AppState.account),
 
       async deleteVault() {
         try {
@@ -86,5 +92,17 @@ export default {
   height: 150px;
   width: 150px;
   object-fit: cover;
+}
+
+.masonry {
+  columns: 4;
+  column-gap: 16px;
+  @media (max-width: 1200px) {
+    columns: 3;
+  }
+  @media (max-width: 992px) {
+    columns: 2;
+  }
+  //@media (max-width: 768px) {columns: 1;}
 }
 </style>

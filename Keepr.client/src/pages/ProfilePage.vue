@@ -1,23 +1,25 @@
 <template>
   <!-- v-if="profile" -->
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12 d-flex">
-        <img class="img-fluid" :src="profile.picture" alt="" />
-        <div>
-          <p>{{ profile.name }}</p>
-          <p>Vaults: {{ vaults.length }}</p>
-          <p>Keeps: {{ keeps.length }}</p>
-        </div>
+    <div class="row m-3 pt-4">
+      <img
+        class="col-md-3 img-fluid profile-img rounded"
+        :src="profile.picture"
+        alt=""
+      />
+      <div class="col-md-4">
+        <p class="fs-1 m-0">{{ profile.name }}</p>
+        <p class="fs-4 m-0">Vaults: {{ vaults.length }}</p>
+        <p class="fs-4 m-0">Keeps: {{ keeps.length }}</p>
       </div>
     </div>
-    <div class="row">
+    <div class="row m-3">
       <!-- TODO users pushed back to home page when they try to open a private vault -->
-      <div class="col-md-12 fs-2">
+      <div class="col-md-12 fs-2 pt-5">
         <div class="d-flex">
           <p>Vaults</p>
-          <div v-if="profile.id == account.id">
-            <i @click="newVault" class="mdi mdi-plus"></i>
+          <div v-if="profile.id">
+            <i @click="newVault" class="mdi mdi-plus text-primary"></i>
           </div>
         </div>
       </div>
@@ -26,17 +28,17 @@
         <VaultCard :vault="v" />
       </div>
     </div>
-    <div class="row">
+    <div class="row m-3">
       <div class="col-md-12 fs-2">
-        <div class="d-flex">
+        <div class="d-flex pt-4">
           <p>Keeps</p>
-          <div v-if="profile.id == account.id">
-            <i @click="newKeep" class="mdi mdi-plus"></i>
+          <div v-if="profile.id">
+            <i @click="newKeep" class="mdi mdi-plus text-primary"></i>
           </div>
         </div>
       </div>
     </div>
-    <div class="masonry">
+    <div class="masonry mx-3">
       <div v-for="k in keeps" :key="k.id">
         <ProfileKeepCard :keep="k" />
       </div>
@@ -131,19 +133,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.profile-img {
+  height: 140px;
+  width: 170px;
+  object-fit: cover;
+}
 .cover-img {
   height: 150px;
   width: 150px;
   object-fit: cover;
 }
-
 .masonry {
-  columns: 200px;
-  column-gap: 1em;
-
-  div {
-    display: block;
-    margin-bottom: 1em;
+  columns: 4;
+  column-gap: 16px;
+  @media (max-width: 1200px) {
+    columns: 3;
   }
+  @media (max-width: 992px) {
+    columns: 2;
+  }
+  //@media (max-width: 768px) {columns: 1;}
 }
 </style>

@@ -1,10 +1,21 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+  <nav class="d-flex navbar-expand-lg navbar-dark bg-primary px-3 py-0">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
-      </div>
+      <i class="text-center text-dark mdi mdi-alpha-k-box-outline"></i>
     </router-link>
+
+    <!-- SECTION search form -->
+    <!-- FIXME not popping error, not working -->
+    <!-- <div class="search-form">
+      <form @submit.prevent="searchKeeps">
+        <div class="input-group">
+          <input class="form-control" type="text" required v-model="query" />
+          <button class="btn btn-outline-dark" type="submit">
+            <i class="mdi mdi-magnify"></i>
+          </button>
+        </div>
+      </form>
+    </div> -->
     <button
       class="navbar-toggler"
       type="button"
@@ -16,7 +27,7 @@
     >
       <span class="navbar-toggler-icon" />
     </button>
-    <div class="collapse navbar-collapse" id="navbarText">
+    <div class="px-3 collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
           <!-- <router-link
@@ -34,19 +45,35 @@
 </template>
 
 <script>
-import { computed } from "@vue/reactivity";
-import { AppState } from "../AppState.js";
+import { ref } from "vue";
+import { keepsService } from "../services/KeepsService.js";
+import { logger } from "../utils/Logger.js";
+import Pop from "../utils/Pop.js";
 
 export default {
   setup() {
+    const query = ref("");
     return {
-      // profile: computed(() => AppState.activeProfile),
+      query,
+
+      async searchKeeps() {
+        try {
+          await keepsService.searchKeeps(query.value);
+        } catch (error) {
+          logger.error("[Searching Keeps]", error);
+          Pop.error(error);
+        }
+      },
     };
   },
 };
 </script>
 
 <style scoped>
+i {
+  font-size: 70px;
+}
+
 a:hover {
   text-decoration: none;
 }

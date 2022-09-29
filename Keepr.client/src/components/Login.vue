@@ -1,14 +1,14 @@
 <template>
   <span class="navbar-text">
     <button
-      class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0"
+      class="btn selectable bg-text text-light text-uppercase my-2 my-lg-0"
       @click="login"
       v-if="!user.isAuthenticated"
     >
       Login
     </button>
 
-    <div class="dropdown my-2 my-lg-0" v-else>
+    <div class="dropdown my-2 my-lg-0 bg-text" v-else>
       <div
         class="dropdown-toggle selectable"
         data-bs-toggle="dropdown"
@@ -22,7 +22,7 @@
             height="40"
             class="rounded"
           />
-          <span class="mx-3 text-success lighten-30">{{ account.name || user.name }}</span>
+          <span class="mx-3 text-light">{{ account.name || user.name }}</span>
         </div>
       </div>
       <div
@@ -46,7 +46,6 @@
   </span>
 </template>
 
-
 <script>
 import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState";
@@ -67,7 +66,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
 .dropdown-menu {
   user-select: none;
@@ -80,5 +78,20 @@ export default {
 }
 .hoverable {
   cursor: pointer;
+}
+.bg-text {
+  background: rgb(0 0 0 / 38%);
+  backdrop-filter: blur(4px);
+  border: solid #8d8b8b1f;
+  color: white;
+  border-radius: 8px;
+  // text-shadow: 10px 10px 10px black;
+  padding: 0.5em;
+  // position: relative;
+  // top: 50%;
+  // left: 50%;
+  // width: 93%;
+  // transform: translate(2em, 2.5em);
+  // min-height: 50vh;
 }
 </style>

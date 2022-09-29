@@ -1,13 +1,11 @@
 <!-- TODO create searchbar for top of homepage - pull from TheNetwork example -->
 
 <template>
-  <div class="container-fluid">
-    <div class="masonry">
-      <div v-for="k in keeps" :key="k.id">
-        <KeepCard :keep="k" />
-      </div>
+  <body class="container-fluid masonry mt-5 px-5">
+    <div v-for="k in keeps" :key="k.id">
+      <KeepCard :keep="k" />
     </div>
-  </div>
+  </body>
 </template>
 
 <script>
@@ -43,12 +41,16 @@ export default {
 
 <style scoped lang="scss">
 .masonry {
-  columns: 200px;
-  column-gap: 1em;
-
-  div {
-    display: block;
-    margin-bottom: 1em;
+  columns: 4;
+  column-gap: 16px;
+  @media (max-width: 1200px) {
+    columns: 3;
+  }
+  @media (max-width: 992px) {
+    columns: 2;
+  }
+  @media (max-width: 768px) {
+    columns: 1;
   }
 }
 </style>

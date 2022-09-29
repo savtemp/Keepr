@@ -42,6 +42,13 @@ class KeepsService {
     AppState.profileKeeps = AppState.profileKeeps.filter((k) => k.id != id);
     AppState.keeps = AppState.keeps.filter((k) => k.id != id);
   }
+
+  async searchKeeps(searchTerm) {
+    const res = await api.get(`/api/keeps`, {
+      params: { query: searchTerm },
+    });
+    AppState.keeps = res.data.keeps;
+  }
 }
 
 export const keepsService = new KeepsService();
