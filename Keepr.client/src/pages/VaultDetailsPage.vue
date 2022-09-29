@@ -1,7 +1,7 @@
 <!-- TODO set up VaultKeep modal to view keeps in vaults -->
 
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid px-5">
     <div class="row m-3 pt-4">
       <div class="col-md-9">
         <p class="fs-1 text-dark">{{ vault.name }}</p>
@@ -9,7 +9,7 @@
           Keeps: <span>{{ vaultKeepViewModel.length }}</span>
         </p>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3 pt-3">
         <button
           v-if="vault.creatorId == profile.id"
           class="btn btn-outline-dark"
