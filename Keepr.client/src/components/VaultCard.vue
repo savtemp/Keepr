@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import { computed } from "@vue/reactivity";
+import { AppState } from "../AppState.js";
 import { router } from "../router.js";
 import { vaultsService } from "../services/VaultsService.js";
 import { logger } from "../utils/Logger.js";
@@ -16,21 +18,30 @@ import Pop from "../utils/Pop.js";
 export default {
   props: { vault: { type: Object, required: true } },
   setup(props) {
+    let account = AppState.account;
     return {
+      account,
+
       async vaultDetailsPage() {
         try {
-          if (props.vault.creatorId) {
+          if (
+            props.vault.creatorId == account.id ||
+            props.vault.isPrivate == false
+          ) {
             await vaultsService.getVaultById(props.vault.id);
             router.push({
               name: "VaultDetails",
               params: { vaultId: props.vault.id },
             });
-          }
-        } catch (error) {
-          if (props.vault.isPrivate == true) {
+          } else if (
+            props.vault.isPrivate == true &&
+            props.vault.creatorId != account.id
+          ) {
             router.push({ name: "Home" });
             Pop.error("You do not have access to this Vault.");
           }
+        } catch (error) {
+          router.push({ name: "Home" });
           logger.log(error);
         }
       },
@@ -63,6 +74,7 @@ export default {
   &__title {
     font-size: 28px;
     font-weight: bold;
+    text-shadow: 10px 10px 15px black;
     margin: 0px 0px 10px 0px;
   }
   &__author {

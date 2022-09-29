@@ -2,7 +2,7 @@
 
 <template>
   <body class="container-fluid masonry mt-5 px-5">
-    <div v-for="k in keeps" :key="k.id">
+    <div class="selectable no-select" v-for="k in keeps" :key="k.id">
       <KeepCard :keep="k" />
     </div>
   </body>

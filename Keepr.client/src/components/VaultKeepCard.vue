@@ -66,6 +66,7 @@ export default {
   &__title {
     font-size: 28px;
     font-weight: bold;
+    text-shadow: 10px 10px 15px black;
     margin: 0px 0px 10px 0px;
   }
   &__author {

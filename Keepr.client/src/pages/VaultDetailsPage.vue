@@ -11,7 +11,7 @@
       </div>
       <div class="col-md-3 pt-3">
         <button
-          v-if="vault.creatorId == profile.id"
+          v-if="vault.creatorId == account.id"
           class="btn btn-outline-dark"
           @click="deleteVault"
         >
@@ -20,7 +20,11 @@
       </div>
     </div>
     <div class="masonry">
-      <div v-for="vk in vaultKeepViewModel" :key="vk.vaultKeepId">
+      <div
+        class="selectable no-select"
+        v-for="vk in vaultKeepViewModel"
+        :key="vk.vaultKeepId"
+      >
         <VaultKeepCard :vaultKeepViewModel="vk" />
       </div>
     </div>
@@ -51,6 +55,7 @@ export default {
         await vaultsService.getVaultById(route.params.vaultId);
         // console.log("getting vault by Id", route.params.vaultId);
       } catch (error) {
+        router.push({ name: "Home" });
         Pop.error(error.message);
         logger.log(error);
       }
@@ -70,9 +75,14 @@ export default {
       keeps: computed(() => AppState.activeKeep),
       vaultKeepViewModel: computed(() => AppState.vaultKeeps),
       profile: computed(() => AppState.activeProfile),
+      account: computed(() => AppState.account),
 
       async deleteVault() {
         try {
+          const yes = await Pop.confirm("Delete this Vault?");
+          if (!yes) {
+            return;
+          }
           await vaultsService.deleteVault(route.params.vaultId);
           Pop.toast("Vault Deleted", "success");
           router.push({ name: "Home" });

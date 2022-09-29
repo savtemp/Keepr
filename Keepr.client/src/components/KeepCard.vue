@@ -5,7 +5,12 @@
     <div class="grid__body">
       <div class="d-flex justify-content-between" @click.stop="profilePage">
         <p class="grid__title m-0">{{ keep.name }}</p>
-        <img class="profile-img" :src="keep.creator.picture" alt="" />
+        <img
+          class="profile-img"
+          :src="keep.creator.picture"
+          alt=""
+          :title="keep.creator.name"
+        />
       </div>
     </div>
   </div>
@@ -81,6 +86,7 @@ export default {
   &__title {
     font-size: 28px;
     font-weight: bold;
+    text-shadow: 10px 10px 15px black;
     margin: 0px 0px 10px 0px;
   }
   &__author {

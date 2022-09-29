@@ -20,24 +20,29 @@
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 >
-                  <i class="fs-3 mdi mdi-window-close"></i>
+                  <i class="fs-3 mdi mdi-window-close" title="Close Window"></i>
                 </div>
               </header>
               <div class="row">
                 <div class="col-12 text-center d-flex justify-content-center">
                   <div class="d-flex px-2">
-                    <i class="px-1 text-primary mdi mdi-eye"></i>
+                    <i
+                      class="px-1 text-primary mdi mdi-eye"
+                      title="Keep Views"
+                    ></i>
                     <p>{{ keep?.views }}</p>
                   </div>
                   <div class="d-flex px-2">
                     <i
                       class="px-1 text-primary mdi mdi-alpha-k-box-outline"
+                      title="Amount Kept"
                     ></i>
                     <p>{{ keep?.kept }}</p>
                   </div>
                   <div class="d-flex px-2">
                     <i
                       class="px-1 text-primary mdi mdi-share-variant-outline"
+                      title="Keep Shares"
                     ></i>
                     <p>{{ keep?.shares }}</p>
                   </div>
@@ -54,8 +59,8 @@
                     </div>
                   </div>
                   <footer class="row justify-content-around">
-                    <div class="col-md-4">
-                      <div class="dropdown">
+                    <div class="col-md-4" v-if="account.id">
+                      <div class="dropdown" title="Add To Vault">
                         <button
                           class="btn btn-success dropdown-toggle"
                           type="button"
@@ -81,9 +86,10 @@
                     <div class="col-md-1 text-center">
                       <i
                         v-if="account.id == keep?.creatorId"
-                        class="fs-3 mdi mdi-delete-outline"
+                        class="fs-3 selectable no-select mdi mdi-delete-outline"
                         @click="deleteKeep(keep.id)"
                         data-bs-dismiss="modal"
+                        title="Delete Keep"
                       ></i>
                     </div>
                     <div class="col-md-6">
@@ -139,6 +145,10 @@ export default {
 
       async deleteKeep(id) {
         try {
+          const yes = await Pop.confirm("Delete this Keep?");
+          if (!yes) {
+            return;
+          }
           await keepsService.deleteKeep(id);
           Pop.toast("Keep Deleted", "success");
           router.push({ name: "Home" });
@@ -162,6 +172,10 @@ export default {
 
       async removeKeepFromVault() {
         try {
+          const yes = await Pop.confirm("Remove this Keep?");
+          if (!yes) {
+            return;
+          }
           await vaultKeepsService.deleteVaultKeep(
             keep.vaultKeepViewModel.vaultKeepId
           );

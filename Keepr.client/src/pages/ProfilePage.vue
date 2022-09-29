@@ -18,28 +18,36 @@
       <div class="col-md-12 fs-2 pt-5">
         <div class="d-flex">
           <p>Vaults</p>
-          <div v-if="profile.id">
-            <i @click="newVault" class="mdi mdi-plus text-primary"></i>
+          <div v-if="profile.id == account.id">
+            <i
+              @click="newVault"
+              class="selectable no-select mdi mdi-plus text-primary"
+              title="Create Vault"
+            ></i>
           </div>
         </div>
       </div>
       <!-- TODO might make this a fake carousel -->
       <div class="col-md-2" v-for="v in vaults" :key="v.id">
-        <VaultCard :vault="v" />
+        <VaultCard class="selectable no-select" :vault="v" />
       </div>
     </div>
     <div class="row m-3">
       <div class="col-md-12 fs-2">
         <div class="d-flex pt-4">
           <p>Keeps</p>
-          <div v-if="profile.id">
-            <i @click="newKeep" class="mdi mdi-plus text-primary"></i>
+          <div v-if="profile.id == account.id">
+            <i
+              @click="newKeep"
+              class="selectable no-select mdi mdi-plus text-primary"
+              title="Create Keep"
+            ></i>
           </div>
         </div>
       </div>
     </div>
     <div class="masonry mx-3">
-      <div v-for="k in keeps" :key="k.id">
+      <div class="selectable no-select" v-for="k in keeps" :key="k.id">
         <ProfileKeepCard :keep="k" />
       </div>
     </div>

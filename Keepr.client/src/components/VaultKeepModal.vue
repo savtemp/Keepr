@@ -20,24 +20,29 @@
                   data-bs-dismiss="modal"
                   aria-label="Close"
                 >
-                  <i class="fs-3 mdi mdi-window-close"></i>
+                  <i class="fs-3 mdi mdi-window-close" title="Close Window"></i>
                 </div>
               </header>
               <div class="row">
                 <div class="col-12 text-center d-flex justify-content-center">
                   <div class="d-flex px-2">
-                    <i class="px-1 text-primary mdi mdi-eye"></i>
+                    <i
+                      class="px-1 text-primary mdi mdi-eye"
+                      title="Keep Views"
+                    ></i>
                     <p>{{ vaultKeepViewModel?.views }}</p>
                   </div>
                   <div class="d-flex px-2">
                     <i
                       class="px-1 text-primary mdi mdi-alpha-k-box-outline"
+                      title="Amount Kept"
                     ></i>
                     <p>{{ vaultKeepViewModel?.kept }}</p>
                   </div>
                   <div class="d-flex px-2">
                     <i
                       class="px-1 text-primary mdi mdi-share-variant-outline"
+                      title="Keep Shares"
                     ></i>
                     <p>{{ vaultKeepViewModel?.shares }}</p>
                   </div>
@@ -54,13 +59,17 @@
                     </div>
                   </div>
                   <footer class="row justify-content-around">
-                    <div class="col-md-4">
+                    <div
+                      class="col-md-4"
+                      v-if="vaultKeepViewModel?.creator?.id == account.id"
+                    >
                       <button
                         @click="
                           removeKeepFromVault(vaultKeepViewModel.vaultKeepId)
                         "
                         class="btn btn-danger"
                         data-bs-dismiss="modal"
+                        title="Remove Keep"
                       >
                         Remove From Vault
                       </button>
@@ -112,8 +121,13 @@ export default {
   setup() {
     return {
       vaultKeepViewModel: computed(() => AppState.activeVaultKeep),
+      account: computed(() => AppState.account),
       async removeKeepFromVault(id) {
         try {
+          const yes = await Pop.confirm("Remove this Keep?");
+          if (!yes) {
+            return;
+          }
           console.log(AppState.vaultKeeps);
           await vaultKeepsService.deleteVaultKeep(id);
           Pop.toast("Keep removed from Vault.");
