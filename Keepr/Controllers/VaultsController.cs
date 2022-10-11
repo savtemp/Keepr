@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CodeWorks.Auth0Provider;
+using CodeWorks.Utils;
 using Keepr.Models;
 using Keepr.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -15,11 +15,13 @@ namespace Keepr.Controllers
   {
     private readonly VaultsService _vaultsService;
     private readonly VaultKeepsService _vaultKeepsService;
+    private readonly Auth0Provider _auth0Provider;
 
-    public VaultsController(VaultsService vaultsService, VaultKeepsService vaultKeepsService)
+    public VaultsController(VaultsService vaultsService, VaultKeepsService vaultKeepsService, Auth0Provider auth0Provider)
     {
       _vaultsService = vaultsService;
       _vaultKeepsService = vaultKeepsService;
+      _auth0Provider = auth0Provider;
     }
 
     [HttpGet("{id}")]
@@ -27,7 +29,7 @@ namespace Keepr.Controllers
     {
       try
       {
-        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
         Vault vault = _vaultsService.GetById(id, user?.Id);
         return Ok(vault);
       }
@@ -42,7 +44,7 @@ namespace Keepr.Controllers
     {
       try
       {
-        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
         List<VaultKeepViewModel> vaultKeepViewModel = _vaultKeepsService.GetVaultKeeps(id, user?.Id);
         return Ok(vaultKeepViewModel);
       }
@@ -58,7 +60,7 @@ namespace Keepr.Controllers
     {
       try
       {
-        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
         vaultData.CreatorId = user.Id;
         Vault vault = _vaultsService.Create(vaultData);
         vault.Creator = user;
@@ -76,7 +78,7 @@ namespace Keepr.Controllers
     {
       try
       {
-        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
         vaultData.Id = id;
         Vault vault = _vaultsService.Update(vaultData, user);
         return Ok(vault);
@@ -93,7 +95,7 @@ namespace Keepr.Controllers
     {
       try
       {
-        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
         string message = _vaultsService.Delete(id, user);
         return Ok(message);
       }

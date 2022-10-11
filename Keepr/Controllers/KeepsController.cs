@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CodeWorks.Auth0Provider;
+using CodeWorks.Utils;
 using Keepr.Models;
 using Keepr.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -14,10 +14,12 @@ namespace Keepr.Controllers
   public class KeepsController : ControllerBase
   {
     private readonly KeepsService _keepsService;
+    private readonly Auth0Provider _auth0Provider;
 
-    public KeepsController(KeepsService keepsService)
+    public KeepsController(KeepsService keepsService, Auth0Provider auth0Provider)
     {
       _keepsService = keepsService;
+      _auth0Provider = auth0Provider;
     }
 
     [HttpGet]
@@ -54,7 +56,7 @@ namespace Keepr.Controllers
     {
       try
       {
-        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
         newKeep.CreatorId = user.Id;
         Keep keep = _keepsService.Create(newKeep);
         keep.Creator = user;
@@ -72,7 +74,7 @@ namespace Keepr.Controllers
     {
       try
       {
-        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
         update.Id = id;
         Keep keep = _keepsService.Update(update, user.Id);
         return Ok(keep);
@@ -89,7 +91,7 @@ namespace Keepr.Controllers
     {
       try
       {
-        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
         string message = _keepsService.Delete(id, user.Id);
         return Ok(message);
       }

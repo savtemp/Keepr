@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using MySqlConnector;
 using Keepr.Repositories;
 using Keepr.Services;
+using CodeWorks.Utils;
 
 namespace Keepr
 {
@@ -31,6 +32,7 @@ namespace Keepr
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "Keepr", Version = "v1" });
       });
+      services.AddSingleton<Auth0Provider>();
       services.AddScoped<IDbConnection>(x => CreateDbConnection());
 
       services.AddScoped<AccountsRepository>();
@@ -108,7 +110,6 @@ namespace Keepr
       app.UseAuthentication();
 
       app.UseAuthorization();
-
 
       app.UseEndpoints(endpoints =>
       {

@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using CodeWorks.Auth0Provider;
+using CodeWorks.Utils;
 using Keepr.Models;
 using Keepr.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -13,10 +13,12 @@ namespace Keepr.Controllers
   public class VaultKeepsController : ControllerBase
   {
     private readonly VaultKeepsService _vaultKeepsService;
+    private readonly Auth0Provider _auth0Provider;
 
-    public VaultKeepsController(VaultKeepsService vaultKeepsService)
+    public VaultKeepsController(VaultKeepsService vaultKeepsService, Auth0Provider auth0Provider)
     {
       _vaultKeepsService = vaultKeepsService;
+      _auth0Provider = auth0Provider;
     }
 
     [HttpPost]
@@ -25,7 +27,7 @@ namespace Keepr.Controllers
     {
       try
       {
-        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
         vaultKeepData.CreatorId = user.Id;
         VaultKeep newVaultKeep = _vaultKeepsService.Create(vaultKeepData, user.Id);
         return newVaultKeep;
@@ -42,7 +44,7 @@ namespace Keepr.Controllers
     {
       try
       {
-        Account user = await HttpContext.GetUserInfoAsync<Account>();
+        Account user = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
         string message = _vaultKeepsService.Delete(id, user.Id);
         return Ok(message);
       }

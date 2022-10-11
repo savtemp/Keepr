@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Keepr.Models;
 using Keepr.Services;
-using CodeWorks.Auth0Provider;
+using CodeWorks.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,11 +15,13 @@ namespace Keepr.Controllers
   {
     private readonly AccountService _accountService;
     private readonly VaultsService _vaultsService;
+    private readonly Auth0Provider _auth0Provider;
 
-    public AccountController(AccountService accountService, VaultsService vaultsService)
+    public AccountController(AccountService accountService, VaultsService vaultsService, Auth0Provider auth0Provider)
     {
       _accountService = accountService;
       _vaultsService = vaultsService;
+      _auth0Provider = auth0Provider;
     }
 
     [HttpGet]
@@ -28,7 +30,7 @@ namespace Keepr.Controllers
     {
       try
       {
-        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
         return Ok(_accountService.GetOrCreateProfile(userInfo));
       }
       catch (Exception e)
@@ -44,8 +46,8 @@ namespace Keepr.Controllers
     {
       try
       {
-        Account user = await HttpContext.GetUserInfoAsync<Account>();
-        List<Vault> vaults = _vaultsService.GetAccountVaults(user.Id);
+        Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+        List<Vault> vaults = _vaultsService.GetAccountVaults(userInfo.Id);
         return Ok(vaults);
       }
       catch (Exception e)
