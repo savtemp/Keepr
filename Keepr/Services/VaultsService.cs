@@ -60,6 +60,7 @@ namespace Keepr.Services
     }
 
     // NOTE we should not see a users private vaults
+    // FIXME always passing userId as a parameter, need to change this so that you don't see private vaults
     internal List<Vault> GetProfileVaults(string userId)
     {
       List<Vault> vaults = _vaultsRepo.GetProfileVaults(userId);
