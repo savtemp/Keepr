@@ -65,7 +65,7 @@ namespace Keepr.Services
     {
       List<Vault> vaults = _vaultsRepo.GetProfileVaults(userId);
       // NOTE per Mick code notes this line is supposed to filter out private vaults that you are not the owner of
-      vaults = vaults.FindAll(v => v.isPrivate == true || v.CreatorId == userId);
+      vaults = vaults.FindAll(v => v.isPrivate == true || v.CreatorId != userId);
       return vaults;
     }
 
