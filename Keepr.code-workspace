@@ -32,7 +32,6 @@
     },
     "javascript.updateImportsOnFileMove.enabled": "always",
     "explorer.confirmDragAndDrop": false,
-    "vetur.format.defaultFormatter.js": "vscode-typescript",
     "eslint.alwaysShowStatus": true,
     "eslint.format.enable": true,
     "eslint.lintTask.enable": true,
