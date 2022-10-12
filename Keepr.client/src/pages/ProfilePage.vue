@@ -99,7 +99,7 @@ export default {
       }
     }
 
-    // FIXME cannot see my own private vaults - need to either add if statement to see accountVaults if userId==creatorId or fix backend again
+    // FIXME cannot see account private vaults - need to either add if statement to see accountVaults = change AppState profileVaults to myVaults if userId==creatorId show vaults or fix backend again
     async function getProfileVaults() {
       try {
         await profilesService.getProfileVaults(route.params.profileId);
