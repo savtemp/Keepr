@@ -61,11 +61,15 @@ namespace Keepr.Services
 
     // NOTE we should not see a users private vaults
     // FIXME always passing userId as a parameter, need to change this so that you don't see private vaults
-    internal List<Vault> GetProfileVaults(string userId)
+    internal List<Vault> GetProfileVaults(string id)
     {
-      List<Vault> vaults = _vaultsRepo.GetProfileVaults(userId);
+      if (id == null)
+      {
+        throw new Exception("Invalid Profile Id.");
+      }
+      List<Vault> vaults = _vaultsRepo.GetProfileVaults(id);
       // NOTE per Mick code notes this line is supposed to filter out private vaults that you are not the owner of
-      vaults = vaults.FindAll(v => v.isPrivate == true || v.CreatorId != userId);
+      vaults = vaults.FindAll(v => v.isPrivate == false || v.CreatorId != id);
       return vaults;
     }
 
